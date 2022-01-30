@@ -47,6 +47,35 @@ async function run() {
         const result = await allQuestion.toArray();
         res.send(result);
       });
+
+            //Update Question api
+    app.put('/updateQuestion/:id', async (req, res) => {
+      const id = req.params.id;
+      const updatedUser = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+          $set: {
+              category: updatedUser.category,
+              question: updatedUser.question,
+              incorrect_answers: updatedUser.incorrect_answers,
+              correct_answer: updatedUser.correct_answer,
+              type: updatedUser.type
+          },
+      };
+      const result = await quizCollection.updateOne(filter, updateDoc, options)
+      console.log('updating', id)
+      res.json(result)
+  })
+     
+      //get Single question
+      app.get("/getsingleQuestion/:id", async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) };
+        const result = await quizCollection.findOne(query)
+        res.send(result);
+      })
+
         // delete Question
         app.delete("/deleteQuiz/:id", async (req, res) => {
           const id = req.params.id;
