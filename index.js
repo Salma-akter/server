@@ -33,13 +33,14 @@ async function run() {
         res.json(result);
       });
   
-       // get Question by category
-       app.get("/quiz", async (req, res) => {
-         const category= req.query.category;
-          const coursor = quizCollection.find({category:category});
-          const getQuiz = await coursor.toArray();
-          res.send(getQuiz);
-        });
+      //  get Question by category
+      app.get("/quiz", async (req, res) => {
+        const category= req.query.category;
+        const type=req.query.type;
+         const coursor = quizCollection.find({category:category, type:type});
+         const getQuiz = await coursor.toArray();
+         res.send(getQuiz);
+       });
 
        // get All Question
        app.get("/getQuestion", async (req, res) => {
